@@ -1,4 +1,4 @@
-from flask import Flask , request , render_template
+from flask import Flask , request , render_template, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 import os
@@ -30,7 +30,7 @@ def myform():
     data = render_template("index.html")
     return data
 
-# Add user input data from html form into SQL database
+# Add user from html form into SQL database
 @app.route("/add_data_sqlite")
 def add_data_sqlite():
     n = request.args.get("name")
@@ -44,3 +44,19 @@ def add_data_sqlite():
     # Display SQL data in html form
     records = record.query.all()
     return render_template('index.html', records=records)
+
+# Delete row from SQL database table
+@app.route("/delete_data_sqlite<int:id>")
+def delete_data_sqlite(id):
+    row = record.query.get_or_404(id)
+    try:
+        db.session.delete(row)
+        db.session.commit()
+        flash("Deleted Successfully")
+        # Display SQL data in html form
+        records = record.query.all()
+        return render_template('index.html', records=records)
+
+    except:
+        records = record.query.all()
+        return render_template('index.html', records=records)

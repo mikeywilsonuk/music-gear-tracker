@@ -14,7 +14,7 @@
     Name: <input name="name" /> <br>
     Age: <input name="age" />   <br>
     city: <input name="city" />  <br>
-    <input type="submit" value="Add to databse" />
+    <input type="submit" value="Add" />
     </form>
 
     <!-- Table to show data -->
@@ -35,6 +35,9 @@
             <td>{{ record.name }}</td>
             <td>{{ record.age }}</td>
             <td>{{ record.city }}</td>
+            <td>
+                <a href="{{ url_for('delete_data_sqlite', id=record.id)}}">Delete</a>
+            </td>
             </tr>
             {% endfor %}
         </tbody>
