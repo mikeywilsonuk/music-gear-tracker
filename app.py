@@ -14,15 +14,21 @@ db = SQLAlchemy(app)
 
 # Create SQL database and table
 class record(db.Model):
-    name = db.Column(db.Text)
-    age = db.Column(db.Integer)
-    city = db.Column(db.Text)
     id = db.Column(db.Integer , primary_key=True)
+    type = db.Column(db.Text)
+    make = db.Column(db.Text)
+    model = db.Column(db.Text)
+    serial = db.Column(db.Integer)
+    date = db.Column(db.Text)
+    value = db.Column(db.Integer)
 
-    def __init__(self,n,a,c):
-        self.name = n
-        self.age = a
-        self.city = c
+    def __init__(self,t,m,o,s,d,v):
+        self.type = t
+        self.make = m
+        self.model = o
+        self.serial = s
+        self.date = d
+        self.value = v
 
 
 @app.route("/")
@@ -31,14 +37,17 @@ def myform():
     return data
 
 # Add user from html form into SQL database
-@app.route("/add_data_sqlite")
-def add_data_sqlite():
-    n = request.args.get("name")
-    a = request.args.get("age")
-    c = request.args.get("city")
+@app.route("/add_data")
+def add_data():
+    t = request.args.get("type")
+    m = request.args.get("make")
+    o = request.args.get("model")
+    s = request.args.get("serial")
+    d = request.args.get("date")
+    v = request.args.get("value")
     
     db.create_all()
-    obj = record(n ,a ,c)
+    obj = record(t,m,o,s,d,v)
     db.session.add(obj)
     db.session.commit()
     # Display SQL data in html form
@@ -46,13 +55,12 @@ def add_data_sqlite():
     return render_template('index.html', records=records)
 
 # Delete row from SQL database table
-@app.route("/delete_data_sqlite<int:id>")
-def delete_data_sqlite(id):
+@app.route("/delete_data<int:id>")
+def delete_data(id):
     row = record.query.get_or_404(id)
     try:
         db.session.delete(row)
         db.session.commit()
-        flash("Deleted Successfully")
         # Display SQL data in html form
         records = record.query.all()
         return render_template('index.html', records=records)

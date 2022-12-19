@@ -8,12 +8,27 @@
 </head>
 <body>
     <!-- Form to capture data -->
-    <form method="GET" action="/add_data_sqlite">
-    <h1>Enter the data to SQLite database</h1>
+    <form method="GET" action="/add_data">
+    <h1>Register your studio gear</h1>
     <br>
-    Name: <input name="name" /> <br>
-    Age: <input name="age" />   <br>
-    city: <input name="city" />  <br>
+        Equipment Type: <select name="type">
+            <option selected>Choose Type</option>
+            <option>Drums</option>
+            <option>Guitar</option>
+            <option>Synth</option>
+            <option>Microphone</option>
+            <option>Speakers</option>
+            <option>Audio Interface</option>
+            <option>Guitar Amp</option>
+            <option>Outboard FX</option>
+            <option>Other</option>
+        </select> <br>
+        Make: <input type="text" name="make" /> <br>
+        Model: <input type="text" name="model" /> <br>
+        Serial No: <input type="text" name="serial" /> <br>
+        Date of Purchase: <input type="date" name="date" /> <br>
+        Value: <input type="number" name="value" />
+    <br>
     <input type="submit" value="Add" />
     </form>
 
@@ -21,22 +36,26 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>City</th>
+                <th>Type</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Serial No</th>
+                <th>Date of Purchase</th>
+                <th>Value</th>
             </tr>
         </thead>
         <tbody>
         <!-- Loop through database entires and display them in this table -->
         {% for record in records %}
             <tr>
-            <td>{{ record.id }}</td>
-            <td>{{ record.name }}</td>
-            <td>{{ record.age }}</td>
-            <td>{{ record.city }}</td>
+            <td>{{ record.type }}</td>
+            <td>{{ record.make }}</td>
+            <td>{{ record.model }}</td>
+            <td>{{ record.serial}}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.value }}</td>
             <td>
-                <a href="{{ url_for('delete_data_sqlite', id=record.id)}}">Delete</a>
+                <a href="{{ url_for('delete_data', id=record.id)}}">Delete</a>
             </td>
             </tr>
             {% endfor %}
