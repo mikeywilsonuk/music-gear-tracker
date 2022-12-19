@@ -7,6 +7,7 @@
     <title>Studio Gear Tracker</title>
 </head>
 <body>
+    <!-- Form to capture data -->
     <form method="GET" action="/add_data_sqlite">
     <h1>Enter the data to SQLite database</h1>
     <br>
@@ -15,5 +16,28 @@
     city: <input name="city" />  <br>
     <input type="submit" value="Add to databse" />
     </form>
+
+    <!-- Table to show data -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through database entires and display them in this table -->
+        {% for record in records %}
+            <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.name }}</td>
+            <td>{{ record.age }}</td>
+            <td>{{ record.city }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
