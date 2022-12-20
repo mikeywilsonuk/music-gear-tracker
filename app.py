@@ -7,6 +7,7 @@ if os.path.exists('data.db'):
 
 # Configure the app
 app = Flask(__name__)
+app.secret_key = "kjsgdkjgsdlkhjflgjdslnaksnkaf"
 
 # Connect to SQL db
 app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite://///Users/mikeywilson/coding/courses/cs50/project/data.db'
@@ -16,7 +17,7 @@ db = SQLAlchemy(app)
 class record(db.Model):
     id = db.Column(db.Integer , primary_key=True)
     type = db.Column(db.Text)
-    make = db.Column(db.Text)
+    manufacturer = db.Column(db.Text)
     model = db.Column(db.Text)
     serial = db.Column(db.Integer)
     date = db.Column(db.Text)
@@ -24,35 +25,46 @@ class record(db.Model):
 
     def __init__(self,t,m,o,s,d,v):
         self.type = t
-        self.make = m
+        self.manufacturer = m
         self.model = o
         self.serial = s
         self.date = d
         self.value = v
 
 
+# Define app routes
 @app.route("/")
-def myform():
-    data = render_template("index.html")
-    return data
+def index():
+    return render_template("index.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 
 # Add user from html form into SQL database
-@app.route("/add_data")
+@app.route("/add_data", methods=["POST"])
 def add_data():
-    t = request.args.get("type")
-    m = request.args.get("make")
-    o = request.args.get("model")
-    s = request.args.get("serial")
-    d = request.args.get("date")
-    v = request.args.get("value")
-    
-    db.create_all()
-    obj = record(t,m,o,s,d,v)
-    db.session.add(obj)
-    db.session.commit()
-    # Display SQL data in html form
-    records = record.query.all()
-    return render_template('index.html', records=records)
+    try:
+        t = request.form.get("type")
+        m = request.form.get("manufacturer")
+        o = request.form.get("model")
+        s = request.form.get("serial")
+        d = request.form.get("date")
+        v = request.form.get("value")
+        
+        db.create_all()
+        obj = record(t,m,o,s,d,v)
+        db.session.add(obj)
+        db.session.commit()
+        # Display SQL data in html form
+        records = record.query.all()
+        flash("gear successfully registered!")
+        return render_template('index.html', records=records)
+    except:
+        flash("error: unable to register")
+        return render_template("index.html")
+
 
 # Delete row from SQL database table
 @app.route("/delete_data<int:id>")
@@ -63,8 +75,10 @@ def delete_data(id):
         db.session.commit()
         # Display SQL data in html form
         records = record.query.all()
+        flash("gear successfully deleted!")
         return render_template('index.html', records=records)
 
     except:
         records = record.query.all()
+        flash("error: unable to delete")
         return render_template('index.html', records=records)

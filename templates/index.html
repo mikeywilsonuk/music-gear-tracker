@@ -1,65 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Gear Tracker</title>
-</head>
-<body>
-    <!-- Form to capture data -->
-    <form method="GET" action="/add_data">
-    <h1>Register your studio gear</h1>
-    <br>
-        Equipment Type: <select name="type">
-            <option selected>Choose Type</option>
-            <option>Drums</option>
-            <option>Guitar</option>
-            <option>Synth</option>
-            <option>Microphone</option>
-            <option>Speakers</option>
-            <option>Audio Interface</option>
-            <option>Guitar Amp</option>
-            <option>Outboard FX</option>
-            <option>Other</option>
-        </select> <br>
-        Make: <input type="text" name="make" /> <br>
-        Model: <input type="text" name="model" /> <br>
-        Serial No: <input type="text" name="serial" /> <br>
-        Date of Purchase: <input type="date" name="date" /> <br>
-        Value: <input type="number" name="value" />
-    <br>
-    <input type="submit" value="Add" />
-    </form>
+{% extends "layout.html" %}
 
-    <!-- Table to show data -->
-    <table>
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Serial No</th>
-                <th>Date of Purchase</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through database entires and display them in this table -->
-        {% for record in records %}
-            <tr>
-            <td>{{ record.type }}</td>
-            <td>{{ record.make }}</td>
-            <td>{{ record.model }}</td>
-            <td>{{ record.serial}}</td>
-            <td>{{ record.date }}</td>
-            <td>{{ record.value }}</td>
-            <td>
-                <a href="{{ url_for('delete_data', id=record.id)}}">Delete</a>
-            </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+{% block title %}
+    studio gear tracker
+{% endblock %}
+
+{% block main %}
+
+<div class="header">
+    <h1>register your studio gear</h1>
+</div>
+
+<!-- Flash mesage for successful / unsuccessful action -->
+{% for message in get_flashed_messages()%}
+<h3> {{message}} </h3>
+{% endfor %}
+
+<div class="container"></div>
+    <div class="section form">
+        <!-- Form to capture data -->
+        <form method="POST" action="/add_data">
+            <div>
+                <label>gear type</label><br>
+                <select autocomplete="off" name="type" required>
+                    <option disabled>select gear type</option>
+                    <option>instrument</option>
+                    <option>microphone</option>
+                    <option>monitors</option>
+                    <option>audio interface</option>
+                    <option>outboard FX</option>
+                    <option>other</option>
+                </select>
+            </div>
+            <div>
+                <label>manufacturer</label>
+                <input autocomplete="off" name="manufacturer" type="text" placeholder="enter manufacturer" required>
+            </div>
+            <div>
+                <label>model</label>
+                <input autocomplete="off" name="model" type="text" placeholder="enter model" required>
+            </div>
+            <div>
+                <label>serial number</label>
+                <input autocomplete="off" name="serial" type="text" placeholder="enter serial number">
+            </div>
+            <div>
+                <label>date of purchase</label>
+                <input autocomplete="off" name="date" type="date">
+            </div>
+            <div>
+                <label>value</label>
+                <input autocomplete="off" name="value" type="number" placeholder="enter value (£)" required>
+            </div>
+            <input class="button" type="submit" value="register gear" />
+        </form>
+    </div>
+
+
+    <div class="header">
+        <h2>your registered gear</h1>
+    </div>
+
+
+    <div class="section">
+        <!-- Table to show data -->
+        <table>
+            <thead>
+                <tr>
+                    <th>gear type</th>
+                    <th>manufacturer</th>
+                    <th>model</th>
+                    <th>serial no</th>
+                    <th>date of purchase</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through database entires and display them in this table -->
+            {% for record in records %}
+                <tr>
+                <td>{{ record.type }}</td>
+                <td>{{ record.manufacturer }}</td>
+                <td>{{ record.model }}</td>
+                <td>{{ record.serial}}</td>
+                <td>{{ record.date }}</td>
+                <td>{{ record.value }}</td>
+                <td>
+                    <a href="{{ url_for('delete_data', id=record.id)}}">Delete</a>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
