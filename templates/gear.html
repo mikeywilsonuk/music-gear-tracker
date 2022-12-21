@@ -7,13 +7,15 @@
 {% block main %}
 
 <div class="header">
-    <h2>your registered gear</h1>
+    <h2>my registered gear</h1>
 </div>
 
 <!-- Flash mesage for successful / unsuccessful action -->
 {% for message in get_flashed_messages()%}
 <h3> {{message}} </h3>
 {% endfor %}
+
+<h4>The total value of registered gear = £{{ total }}</h4>
 
 <div class="container">
     <div class="section">
@@ -46,7 +48,6 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
 </div>
 
 {% endblock %}

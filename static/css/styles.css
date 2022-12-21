@@ -30,7 +30,19 @@ h3 {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: 30px;
+}
+
+h4 {
+    color: #263159;
+    text-align: center;
+    padding-bottom: 10px;
+    width: 60%;
     margin: auto;
+    font-size: 1.3em;
 }
 
 .container {
@@ -105,8 +117,8 @@ table {
     height: auto;
     margin: auto;
     margin-bottom: 130px;
-    margin-top: 50px;
-    font-size: clamp(0.6em, 1.5vw, 1.1em);
+    margin-top: 20px;
+    font-size: clamp(0.5em, 1.4vw, 0.9em);
 }
 
 table th, table td {

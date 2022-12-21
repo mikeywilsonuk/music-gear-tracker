@@ -1,17 +1,15 @@
-from flask import Flask , request , render_template, flash, url_for
+from flask import Flask, request, render_template, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
-
-import os
-if os.path.exists('data.db'):
-   os.remove('data.db')
+from sqlalchemy import func
 
 # Configure the app
 app = Flask(__name__)
 app.secret_key = "kjsgdkjgsdlkhjflgjdslnaksnkaf"
 
 # Connect to SQL db
-app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite://///Users/mikeywilson/coding/courses/cs50/project/data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///data.db'
 db = SQLAlchemy(app)
+
 
 # Create SQL database and table
 class record(db.Model):
@@ -41,15 +39,17 @@ def index():
 def gear():
     try:
         records = record.query.all()
-        # totval = record.query.value()
-        # for totval in record:
-        return render_template('gear.html', records=records)
+        total = db.session.query(func.sum(record.value)).filter().scalar()
+        if total is None:
+            total = 0
+        return render_template('gear.html', records=records, total=total)
     except:
         return render_template('gear.html')
 
 @app.route("/about")
 def about():
     return render_template("about.html")
+
 
 # Add user from html form into SQL database
 @app.route("/add_data", methods=["POST"])
@@ -83,19 +83,12 @@ def delete_data(id):
         db.session.commit()
         # Display SQL data in html form
         records = record.query.all()
+        total = db.session.query(func.sum(record.value)).filter().scalar()
+        if total is None:
+            total = 0
         flash("gear successfully deleted!")
-        return render_template('gear.html', records=records)
-
+        return render_template('gear.html', records=records, total=total)
     except:
         records = record.query.all()
         flash("error: unable to delete")
-        return render_template('gear.html', records=records)
-
-# # Ensure responses aren't cached
-# @app.after_request
-# def after_request(response):
-#     """Ensure responses aren't cached"""
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
+        return render_template('gear.html', records=records, total=total)
