@@ -15,7 +15,7 @@
 <h3> {{message}} </h3>
 {% endfor %}
 
-<div class="container"></div>
+<div class="container">
     <div class="section form">
         <!-- Form to capture data -->
         <form method="POST" action="/add_data">
@@ -33,64 +33,26 @@
             </div>
             <div>
                 <label>manufacturer</label>
-                <input autocomplete="off" name="manufacturer" type="text" placeholder="enter manufacturer" required>
+                <input autocomplete="off" name="manufacturer" type="text" placeholder="enter manufacturer" spellcheck="false" required>
             </div>
             <div>
                 <label>model</label>
-                <input autocomplete="off" name="model" type="text" placeholder="enter model" required>
+                <input autocomplete="off" name="model" type="text" placeholder="enter model" spellcheck="false" required>
             </div>
             <div>
                 <label>serial number</label>
-                <input autocomplete="off" name="serial" type="text" placeholder="enter serial number">
+                <input autocomplete="off" name="serial" type="text" placeholder="enter serial number" spellcheck="false">
             </div>
             <div>
                 <label>date of purchase</label>
                 <input autocomplete="off" name="date" type="date">
             </div>
             <div>
-                <label>value</label>
+                <label>value (£)</label>
                 <input autocomplete="off" name="value" type="number" placeholder="enter value (£)" required>
             </div>
             <input class="button" type="submit" value="register gear" />
         </form>
-    </div>
-
-
-    <div class="header">
-        <h2>your registered gear</h1>
-    </div>
-
-
-    <div class="section">
-        <!-- Table to show data -->
-        <table>
-            <thead>
-                <tr>
-                    <th>gear type</th>
-                    <th>manufacturer</th>
-                    <th>model</th>
-                    <th>serial no</th>
-                    <th>date of purchase</th>
-                    <th>value</th>
-                </tr>
-            </thead>
-            <tbody>
-            <!-- Loop through database entires and display them in this table -->
-            {% for record in records %}
-                <tr>
-                <td>{{ record.type }}</td>
-                <td>{{ record.manufacturer }}</td>
-                <td>{{ record.model }}</td>
-                <td>{{ record.serial}}</td>
-                <td>{{ record.date }}</td>
-                <td>{{ record.value }}</td>
-                <td>
-                    <a href="{{ url_for('delete_data', id=record.id)}}">Delete</a>
-                </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 </div>
 

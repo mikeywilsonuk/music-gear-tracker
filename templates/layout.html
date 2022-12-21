@@ -9,10 +9,10 @@
     <link href="/static/css/styles.css" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
+<body class="bg-light">
 
     <!-- Bootstrap nav bar -->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #263159;">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="padding: 15px; background-color: #263159;">
         <div class="container-fluid">
             <div class="navbar-brand d-inline-block align-text-top">music gear tracker</div>
             <a class="navbar-brand" href=""></a>
@@ -23,7 +23,10 @@
                 <!-- Change nav list with JINJA -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">home</a>
+                        <a class="nav-link active" aria-current="page" href="/">register gear</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/gear">my gear</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/about">about</a>
@@ -33,13 +36,13 @@
         </div>
     </nav>
 
-    <main class="bg-light">
+    <main>
         <img src="/static/images/header.png" alt="home recording studio with gear">
         {% block main %}{% endblock %}
     </main>
 
-    <footer class="text-center text-white" style="background-color: #263159;">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    <footer class="fixed-bottom text-center text-white" style="padding: 15px; background-color: #263159;">
+        <div class="text-center p-3" style="background-color: #263159;">
         © 2022 Copyright: My CS50 Final Project</div>
     </footer>
     

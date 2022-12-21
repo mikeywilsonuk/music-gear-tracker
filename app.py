@@ -37,10 +37,19 @@ class record(db.Model):
 def index():
     return render_template("index.html")
 
+@app.route("/gear")
+def gear():
+    try:
+        records = record.query.all()
+        # totval = record.query.value()
+        # for totval in record:
+        return render_template('gear.html', records=records)
+    except:
+        return render_template('gear.html')
+
 @app.route("/about")
 def about():
     return render_template("about.html")
-
 
 # Add user from html form into SQL database
 @app.route("/add_data", methods=["POST"])
@@ -58,9 +67,8 @@ def add_data():
         db.session.add(obj)
         db.session.commit()
         # Display SQL data in html form
-        records = record.query.all()
         flash("gear successfully registered!")
-        return render_template('index.html', records=records)
+        return render_template("index.html")
     except:
         flash("error: unable to register")
         return render_template("index.html")
@@ -76,9 +84,18 @@ def delete_data(id):
         # Display SQL data in html form
         records = record.query.all()
         flash("gear successfully deleted!")
-        return render_template('index.html', records=records)
+        return render_template('gear.html', records=records)
 
     except:
         records = record.query.all()
         flash("error: unable to delete")
-        return render_template('index.html', records=records)
+        return render_template('gear.html', records=records)
+
+# # Ensure responses aren't cached
+# @app.after_request
+# def after_request(response):
+#     """Ensure responses aren't cached"""
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Expires"] = 0
+#     response.headers["Pragma"] = "no-cache"
+#     return response
