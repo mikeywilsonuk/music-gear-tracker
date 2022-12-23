@@ -10,9 +10,9 @@
 This is my final project for the CS50 course. For this project I knew I wanted to build a web app with both front and back end functionality. I also knew I was going to be spending many hours inputting data to get things working, so I decided to base it on a subject I enjoy - home studio recording!
 
 The 3 key objectives for my project when starting out were:
-* Create a front end form which synched to a database
+* Create a front end input form which saved data into a database
 * Create a front end process to delete stored data from the database
-* Query the database to display data on the front end
+* Query the database and display data on the front end
 
 <br>
 
@@ -30,21 +30,15 @@ I used the Flask framework to build my web app, utilising:
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps:
-
-<br>
-
 ### Prerequisites
 
 See the requirements.txt file for details.
-
-<br>
 
 ### Installation
 
 Clone the repo 
    ```sh
-   git clone https://github.com/mikeywilsonuk/studio-gear-tracker.git
+   git clone https://github.com/mikeywilsonuk/music-gear-tracker.git
    ```
 
 <br>
